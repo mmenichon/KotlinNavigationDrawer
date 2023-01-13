@@ -10,6 +10,8 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.mmeni.kotlinfirstapplication.Controllers.Fragments.NewsFragment
+import com.mmeni.kotlinfirstapplication.Controllers.Fragments.ParamsFragment
+import com.mmeni.kotlinfirstapplication.Controllers.Fragments.ProfileFragment
 import com.mmeni.kotlinfirstapplication.R
 
 class MainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -33,14 +35,13 @@ class MainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelected
         this.configureToolBar()
         this.configureDrawerLayout()
         this.configureNavigationView()
+        this.showFirstFragment()
     }
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         if (this.drawnerLayout.isDrawerOpen(GravityCompat.START))
             this.drawnerLayout.closeDrawer(GravityCompat.START)
-//        else
-//            super.onBackPressed()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -79,6 +80,14 @@ class MainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelected
     // FRAGMENTS
     // ---------------------
 
+    private fun showFirstFragment() {
+        val visibleFragment = supportFragmentManager.findFragmentById(R.id.activity_main_frame_layout)
+        if (visibleFragment == null) {
+            this.showFragment(FRAGMENT_NEWS)
+            this.navigationView.menu.getItem(0).isChecked = true
+        }
+    }
+
     private fun showFragment(fragmentId: Int) {
         when (fragmentId) {
             FRAGMENT_NEWS -> this.showNewsFragment()
@@ -93,12 +102,12 @@ class MainActivity: AppCompatActivity(), NavigationView.OnNavigationItemSelected
     }
 
     private fun showProfileFragment() {
-        this.fragmentProfile = NewsFragment.newInstance()
+        this.fragmentProfile = ProfileFragment.newInstance()
         this.startTransactionFragment(this.fragmentProfile)
     }
 
     private fun showParamsFragment() {
-        this.fragmentParams = NewsFragment.newInstance()
+        this.fragmentParams = ParamsFragment.newInstance()
         this.startTransactionFragment(this.fragmentParams)
     }
 
